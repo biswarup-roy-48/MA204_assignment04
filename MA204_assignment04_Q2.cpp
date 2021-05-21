@@ -9,11 +9,11 @@ using namespace std;
 
 #define TOL 0.0001 //precison
 #define DEL 0.001
-#define NITER 45 //maximum number of iteration
+#define NITER 100 //maximum number of iteration
 
 int main() {
    int i,j,k,n; // declare variables and matrixes as input
-   float a[10][10],b[10],x[10],x_old[100484];
+   float a[10][10],b[10],x[10];
    // initially assuming all solutions to be zero
    float x0[10]={0};
    cout<<"\nEnter the size of matrix: ";
@@ -38,6 +38,10 @@ int main() {
    k = 1;
    while(k <= NITER){
 
+      for (int i = 1; i <= n; i++){
+         x[i]=x0[i];
+      }
+
 
       for (int i = 1; i <= n; i++)
       {
@@ -49,12 +53,13 @@ int main() {
          }
         
          for(j=1;j<=i-1;j++){
-            sum = sum - a[i][j]*x_old[j];
+            sum = sum - a[i][j]*x0[j];
          }
         
          for(j=i+1;j<=n;j++){
-            sum = sum - a[i][j]*x0[j];
+            sum = sum - a[i][j]*x[j];
          }
+       
          x[i] = sum/diag;
       }
       
@@ -79,9 +84,7 @@ int main() {
       
       k = k+1;
       
-      for (int i = 1; i <= n; i++){
-         x_old[i]=x0[i];
-      }
+      
       for (int i = 1; i <= n; i++){
          x0[i]=x[i];
       }
